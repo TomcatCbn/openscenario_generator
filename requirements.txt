@@ -12,6 +12,3 @@ scenariogeneration==0.3.0
 scipy==1.6.2
 six==1.15.0
 sqlparse==0.4.1
-TBB==0.1
-toml==0.10.2
-wrapt==1.12.1
