@@ -5,7 +5,7 @@ from .dto.lane import frameWithLanesFromJson
 from .dto.records import frameWithRecordsFromJson
 from .opendrive.generate_open_drive import generate_xodr
 from .openscenario.generate_open_scenario import generate_xosc
-from .simulator.esmini import recordGif
+from .simulator.esmini import record_gif
 
 FILE_RECORDS = 'data/records_1618836369.6746867.json'
 FILE_LANES = 'data/lane_1618836369.6746867.json'
@@ -15,7 +15,7 @@ frame_count = 0
 
 def handle(need_gif=False):
     dir = dirname(__file__)
-    print('path = %s' % (dir))
+    print('path = %s' % dir)
 
     file_lanes = '%s/%s' % (str(dir), FILE_LANES)
     # 读取所有帧的lanes信息
@@ -40,7 +40,7 @@ def handle(need_gif=False):
 
     # 仿真运行，移到对应esmini环境下
     if need_gif:
-        gif_file_path = recordGif(xodrFileName, xoscFileName, int(total_time))
+        gif_file_path = record_gif(xodrFileName, xoscFileName, int(total_time))
     else:
         gif_file_path = ''
     return xodrFileName, xoscFileName, gif_file_path
