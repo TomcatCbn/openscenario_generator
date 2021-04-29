@@ -6,8 +6,7 @@ from scenariogeneration import xosc
 
 from ..dto.lane import getRoadIdAndLaneId
 
-XOSC_FILE_PATH = '/Users/uvaw4pv/ma/asam/OpenScenario/scenariogeneration-main/examples/trafficstream/generate_open_scenario.xosc'
-VEHICLE_CATALOG = '/Users/uvaw4pv/ma/asam/OpenScenario/esmini-demo/resources/xosc/Catalogs/Vehicles'
+from ..simulator.constants import VEHICLE_CATALOG
 
 carCatalog = {0: 'car_blue', 1: 'car_yellow', 2: 'car_red'}
 EGO_ID = '0'
@@ -85,7 +84,7 @@ def generate_xosc(frames, xodrFileName):
         roadId, landId = getRoadIdAndLaneId(value[0].lane_id)
         actors[key] = Actor(key, s, velo, landId, roadId)
 
-    return _createXoscWith(xodrFileName, 0.5, speedChangeEvents, actors, laneChangeEvents, totalTime + 2)
+    return _createXoscWith(xodrFileName, 0.5, speedChangeEvents, actors, laneChangeEvents, totalTime + 2), totalTime + 2
 
 
 def _createXoscWith(xodrFileName, timeBegin, speedChangeEvents, actors, laneChangeEvents, totalTime=15):

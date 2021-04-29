@@ -1,31 +1,23 @@
 import json
-import os
+from os.path import dirname
 
 from .dto.lane import frameWithLanesFromJson
 from .dto.records import frameWithRecordsFromJson
 from .opendrive.generate_open_drive import generate_xodr
 from .openscenario.generate_open_scenario import generate_xosc
-from os.path import dirname
+from .simulator.esmini import recordGif
 
 FILE_RECORDS = 'data/records_1618836369.6746867.json'
 FILE_LANES = 'data/lane_1618836369.6746867.json'
 
-ESMINI_ENV_PATH = '/Users/uvaw4pv/ma/asam/OpenScenario/esmini-demo/resources/samples/'
-
-
-def __exec_cmd(s):
-    print('exec cmd ' + s)
-    os.system(s)
-
-
 frame_count = 0
 
 
-def handle():
+def handle(need_gif=False):
     dir = dirname(__file__)
-    print('path = %s'%(dir))
+    print('path = %s' % (dir))
 
-    file_lanes = '%s/%s'%(str(dir), FILE_LANES)
+    file_lanes = '%s/%s' % (str(dir), FILE_LANES)
     # 读取所有帧的lanes信息
     with open(file_lanes, 'r') as f:
         lanes_dic = json.load(f)
@@ -44,13 +36,11 @@ def handle():
     frameWithRecords = frameWithRecordsFromJson(records_dic)
     # print(len(frameWithRecords.records))
 
-    xoscFileName = generate_xosc(frameWithRecords.records, xodrFileName)
+    xoscFileName, total_time = generate_xosc(frameWithRecords.records, xodrFileName)
 
     # 仿真运行，移到对应esmini环境下
-
-    __exec_cmd('cp %s %s' % (xodrFileName, ESMINI_ENV_PATH))
-    __exec_cmd('cp %s %s' % (xoscFileName, ESMINI_ENV_PATH))
-
-    esmini_cmd = 'esmini --osc %s%s --window 60 60 1024 720 --camera_mode top' % (ESMINI_ENV_PATH, xoscFileName)
-    __exec_cmd(esmini_cmd)
-    return xodrFileName, xoscFileName
+    if need_gif:
+        gif_file_path = recordGif(xodrFileName, xoscFileName, int(total_time))
+    else:
+        gif_file_path = ''
+    return xodrFileName, xoscFileName, gif_file_path
