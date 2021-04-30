@@ -43,8 +43,8 @@ def convert_open_scenario(request):
         # 返回文件，可下载
         file = file_iterator(file_path)
         response = StreamingHttpResponse(file)
-        response['Content-Type'] = 'application/xml'
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(quote(xosc))
+        response['Content-Type'] = content_type
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(quote(file_path))
         return response
     else:
         with open(file_path, 'r', encoding='UTF-8') as f:
