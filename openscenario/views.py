@@ -28,10 +28,10 @@ def convert_open_scenario(request):
     type = request.query_params.get('type')
     download = request.query_params.get('download')
     xord, xosc, gif = handle('gif' == type)
-    file_path=''
+    print('%s %s %s' % (xord, xosc, gif))
     if 'xord' == type:
         content_type = 'application/xml'
-        file_path= xord
+        file_path = xord
     elif 'gif' == type:
         content_type = 'image/gif'
         file_path = gif

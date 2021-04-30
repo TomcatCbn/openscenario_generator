@@ -18,7 +18,7 @@ def record_gif(xodr_file_name, xosc_file_name, length=10, resolution_x=320, reso
     esmini_cmd = 'timeout %d %s --osc %s%s --window 0 0 %d %d --camera_mode top &' % (
         length, ESMINI_CMD_PATH, ESMINI_SAMPLE_PATH, xosc_file_name, resolution_x, resolution_y)
     __exec_cmd(esmini_cmd)
-    gif_save_path = ESMINI_SAMPLE_PATH + '/' + gif_name
+    gif_save_path = gif_name
     __exec_cmd(
         'avconv -f x11grab -s %dx%d -draw_mouse 0 -r %d -t %d -y -i :1.0 \"%s\"' % (
             resolution_x, resolution_y, frame_rate, length, gif_save_path))
